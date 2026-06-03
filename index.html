@@ -155,7 +155,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   </div>
 
   <div class="card">
-    <h2>Early-warning signals</h2>
+    <h2 id="ew-h">Early-warning signals</h2>
     <div class="hint">Plain-language summary of the four signals worth watching this period. Each is auto-evaluated against the trend; the colored dots flag direction and severity at a glance.</div>
     <div id="flags"></div>
   </div>
@@ -180,7 +180,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
   <div class="card">
     <h2>Monthly volume <span class="q">&mdash; each vendor as its own bar</span></h2>
-    <div class="hint">Monthly deal-creation per vendor, broken out side by side. The Dec 2025 LG spike is a same-day creation of 28 NextEra portfolio deals &mdash; one batch event, not 28 separate opportunities.</div>
+    <div class="hint">Monthly deal-creation per vendor, broken out side by side. LG figures exclude 32 commercial-team placeholder deals (Ganesh-authored, incl. the Dec '25 NextEra portfolio of 28) so the LG line reflects customer-originated demand only. Sungrow and Risen unchanged.</div>
     <div class="chartbox"><canvas id="o-mo"></canvas></div>
   </div>
 
@@ -248,14 +248,14 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
     <div class="vcard vc-lg">
       <div class="vstripe"></div>
       <div class="vbody">
-        <div class="vname">LG</div>
-        <div class="vrow"><span>Intake</span><span class="vnum">50</span></div>
+        <div class="vname">LG <span style="font-weight:400;font-size:10.5px;color:var(--muted)">· customer-originated</span></div>
+        <div class="vrow"><span>Intake</span><span class="vnum">18</span></div>
         <div class="vrow"><span>Transferred to Lift</span><span class="vnum">5</span></div>
         <div class="vrate">
           <div class="vlabel">Win rate (resolved)</div>
-          <div class="vnumbig">50%</div>
-          <div class="vbar"><div class="vbar-seg vbar-won" style="width:10%"></div><div class="vbar-seg vbar-lost" style="width:10%"></div><div class="vbar-seg vbar-open" style="width:80%"></div></div>
-          <div class="vnote">5 won · 5 lost · 40 in flight (the Dec 2025 NextEra batch is largely in flight).</div>
+          <div class="vnumbig">56%</div>
+          <div class="vbar"><div class="vbar-seg vbar-won" style="width:27.8%"></div><div class="vbar-seg vbar-lost" style="width:22.2%"></div><div class="vbar-seg vbar-open" style="width:50%"></div></div>
+          <div class="vnote">5 won · 4 lost · 9 in flight. Excludes 32 commercial-team placeholder deals (Ganesh-authored, incl. the Dec '25 NextEra portfolio of 28) &mdash; entered as future-work markers, not customer-originated demand.</div>
         </div>
       </div>
     </div>
@@ -273,7 +273,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
     <div class="foot">
       <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026 &mdash; <b>CATL series carried forward</b> from prior run (Lift sign-in still expired &mdash; needs manual sign-in then re-run); OEM series refreshed.<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate. Different units &mdash; the two sections are kept separate for that reason.<br>
-      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; not real intake, excluded from trend reads. LG Dec 2025 includes 28 same-day deal creations for a NextEra portfolio rollout.<br>
+      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; not real intake, excluded from trend reads. <b>LG figures exclude 32 commercial-team placeholder deals</b> (HubSpot user 67667353, primarily the Dec '25 NextEra portfolio of 28) &mdash; entered as future-work markers, not customer-originated demand. Sungrow and Risen unfiltered.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>). The Monday run pulls Lift for CATL and HubSpot for the others; if Lift isn't signed in, it refreshes HubSpot and flags CATL for a manual sign-in.<br>
       <b>Open item:</b> the Lift Projects table has no OEM field, which is why Sungrow / Risen / LG come from HubSpot. Adding an OEM field in Lift would put every OEM on one authoritative source &mdash; see the Implementation Plan, Section 10.
     </div>
@@ -290,14 +290,14 @@ const D={
  catl_mo:[102,94,132,160,282,232,120,248,292,81,196,121,188,74,48,102,31],
  sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20],
  risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1],
- lg_mo:[1,0,1,3,2,1,0,0,0,1,0,28,1,1,5,3,3],
+ lg_mo:[1,0,1,3,2,1,0,0,0,1,0,0,1,1,4,2,1],
  qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26*"],
  catl_qt:[328,674,660,398,310,133],
  sg_qt:[23,9,19,44,60,50],
  risen_qt:[0,0,11,11,5,2],
- lg_qt:[2,6,0,29,7,6],
+ lg_qt:[2,6,0,1,6,3],
  ytd25:697, ytd26:443,
- sg_yoy:[23,60], risen_yoy:[0,5], lg_yoy:[2,7]
+ sg_yoy:[23,60], risen_yoy:[0,5], lg_yoy:[2,6]
 };
 const SPIKE=150;
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
