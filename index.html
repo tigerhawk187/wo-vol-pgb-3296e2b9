@@ -109,7 +109,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
   <div class="note">
     <div class="t">Two sources, by design</div>
-    <p>The <b>CATL</b> section is built from the <b>CATL Work Orders</b> table in Renewance Lift &mdash; <b>4,139 work orders</b>, the authoritative system of record. <b>Sungrow, Risen and LG</b> come from <b>HubSpot deal creation</b> (Commercial toll-gate path). Two different metrics, each on its own scale, kept in separate sections so the read stays honest. History starts Jan 1, 2025.</p>
+    <p>The <b>CATL</b> section is built from the <b>CATL Work Orders</b> table in Renewance Lift &mdash; <b>4,178 work orders</b>, the authoritative system of record. <b>Sungrow, Risen and LG</b> come from <b>HubSpot deal creation</b> (Commercial toll-gate path). Two different metrics, each on its own scale, kept in separate sections so the read stays honest. History starts Jan 1, 2025.</p>
   </div>
 
   <div class="kpis" id="kpis"></div>
@@ -271,7 +271,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026 &mdash; <b>CATL series carried forward</b> from prior run (Lift sign-in still expired &mdash; needs manual sign-in then re-run); OEM series refreshed.<br>
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026 &mdash; both CATL and OEM series refreshed.<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate. Different units &mdash; the two sections are kept separate for that reason.<br>
       <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; not real intake, excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (HubSpot users 67667353 + 67779836, primarily Dec '25 NextEra portfolio of 28). Trade-off: this also drops some real wins created through the extension (e.g. Roccasecca Boulder City physical inspection) &mdash; LG totals now show only deals authored by user 75077893. Adding a custom <i>deal_source</i> property in HubSpot would let us filter cleanly without that trade-off. Sungrow and Risen unfiltered.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>). The Monday run pulls Lift for CATL and HubSpot for the others; if Lift isn't signed in, it refreshes HubSpot and flags CATL for a manual sign-in.<br>
@@ -283,25 +283,25 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
 <script>
 const D={
- weeks:["2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17"],
- wk:[14,26,27,35,14,33,17,30,28,24,26,28,26,18,34,64,44,83,78,48,73,25,130,27,27,23,25,34,33,28,77,47,39,25,60,23,31,21,217,27,21,7,26,19,58,30,35,54,70,37,8,6,29,13,35,111,18,10,27,19,14,10,5,9,10,20,20,17,45,8,14,9],
- sg_wk:[1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6],
- mlabels:["Jan'25","Feb'25","Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26","Mar'26","Apr'26","May'26"],
- catl_mo:[102,94,132,160,282,232,120,248,292,81,196,121,188,74,48,102,31],
- sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20],
- risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1],
- lg_mo:[0,0,1,3,2,1,0,0,0,0,0,0,0,0,0,1,0],
+ weeks:["2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17","2026-05-24","2026-05-31"],
+ wk:[14,26,27,35,14,33,17,30,28,24,26,28,26,18,34,64,44,83,78,48,73,25,130,27,27,23,25,34,33,28,77,47,39,25,60,23,31,21,217,27,21,7,26,19,58,30,35,54,70,37,8,6,29,12,36,111,18,10,27,19,14,10,5,9,10,20,20,17,45,8,14,9,17,22],
+ sg_wk:[1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6,3,1],
+ mlabels:["Jan'25","Feb'25","Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26","Mar'26","Apr'26","May'26","Jun'26"],
+ catl_mo:[105,94,120,161,293,209,142,189,340,93,142,175,188,74,46,101,51,22],
+ sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20,1],
+ risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1,0],
+ lg_mo:[0,0,1,3,2,1,0,0,0,0,0,0,0,0,0,1,0,0],
  qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26*"],
- catl_qt:[328,674,660,398,310,133],
+ catl_qt:[319,663,671,410,308,174],
  sg_qt:[23,9,19,44,60,50],
  risen_qt:[0,0,11,11,5,2],
  lg_qt:[1,6,0,0,0,1],
- ytd25:697, ytd26:443,
+ ytd25:770, ytd26:460,
  sg_yoy:[23,60], risen_yoy:[0,5], lg_yoy:[1,0]
 };
 const SPIKE=150;
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
-document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · pulled 03 Jun 2026 · CATL pending manual Lift sign-in · auto-refresh every Monday ~2:03 AM Central";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · pulled 03 Jun 2026 · auto-refresh every Monday ~2:03 AM Central";
 
 const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', BATCH='#e0982f', PRIOR='#b9c6d6';
 const groupedBarOpts={barPercentage:0.85,categoryPercentage:0.7};
@@ -319,10 +319,10 @@ const ytd2026all=sum(D.wk.filter((_,i)=>D.weeks[i]>="2026-01-01"));
 
 /* KPIs */
 const kpis=[
- {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of May 10"},
+ {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of May 24"},
  {l:"Trailing 4-wk avg",v:a4.toFixed(1),d:arrow(a4-p4)+"prior 4 wks "+p4.toFixed(1),dc:a4>=p4?"up":"down",sub:"Completed weeks"},
- {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – May 17",dc:"flat",sub:"2025 full year: 2,060"},
- {l:"YoY (Jan–mid-May)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"},
+ {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – Jun 3 (incl. partial wk)",dc:"flat",sub:"2025 full year: 2,060"},
+ {l:"YoY (Jan–end-May)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"},
  {l:"Spike weeks",v:"2",d:"357 + 217 batch loads",dc:"flat",sub:"Excluded from trend reads"}
 ];
 document.getElementById('kpis').innerHTML=kpis.map(k=>
@@ -331,7 +331,7 @@ document.getElementById('kpis').innerHTML=kpis.map(k=>
 
 document.getElementById('hl-big').textContent=yoyPct+"%";
 document.getElementById('hl-t').textContent="CATL work-order volume is down "+Math.abs(yoyPct)+"% year over year";
-document.getElementById('hl-p').textContent="Comparable Jan-to-mid-May window: "+D.ytd25+" work orders in 2025 versus "+D.ytd26+" in 2026. Neither window contains a batch load, so this is a clean read. The drop is concentrated in spring — Feb, Mar and Apr 2026 each ran below their 2025 counterparts. Confirm the driver before the revenue review.";
+document.getElementById('hl-p').textContent="Comparable Jan-to-end-of-May window: "+D.ytd25+" work orders in 2025 versus "+D.ytd26+" in 2026. Neither window contains a batch load, so this is a clean read. The drop is concentrated in spring — Feb, Mar, Apr and May 2026 each ran below their 2025 counterparts. Confirm the driver before the revenue review.";
 
 /* CATL WEEKLY */
 new Chart(document.getElementById('c-wk'),{type:'bar',
@@ -379,8 +379,8 @@ const flags=[
   t:`Volume down ${Math.abs(yoyPct)}% year over year`,
   d:`Jan to mid-May: ${D.ytd25} work orders in 2025 versus ${D.ytd26} in 2026. The primary signal — confirm the driver before the revenue review.`},
  {r:'r-amber',
-  t:`February, March and April 2026 each ran below 2025`,
-  d:`Feb ${feb[1]} vs ${feb[0]} · Mar ${mar[1]} vs ${mar[0]} · Apr ${apr[1]} vs ${apr[0]}. Three consecutive months under prior-year — a sustained step down.`},
+  t:`February, March, April and May 2026 each ran below 2025`,
+  d:`Feb ${feb[1]} vs ${feb[0]} · Mar ${mar[1]} vs ${mar[0]} · Apr ${apr[1]} vs ${apr[0]} · May ${D.catl_mo[16]} vs ${D.catl_mo[4]}. Four consecutive months under prior-year — a sustained step down.`},
  {r:a4>=p4?'r-green':'r-amber',
   t:`Recent 4 weeks ${a4>=p4?'up':'down'} vs prior 4 (${a4.toFixed(1)} vs ${p4.toFixed(1)})`,
   d:`A short-term ${a4>=p4?'stabilisation':'softening'} after the Q1 drop. Watch whether it holds — May is only partially in.`},
@@ -399,8 +399,9 @@ const rows=[
  ["February",D.catl_mo[1],D.catl_mo[13],pc(D.catl_mo[13],D.catl_mo[1])],
  ["March",D.catl_mo[2],D.catl_mo[14],pc(D.catl_mo[14],D.catl_mo[2])],
  ["April",D.catl_mo[3],D.catl_mo[15],pc(D.catl_mo[15],D.catl_mo[3])],
+ ["May",D.catl_mo[4],D.catl_mo[16],pc(D.catl_mo[16],D.catl_mo[4])],
  ["Q1 (Jan–Mar)",D.catl_qt[0],D.catl_qt[4],pc(D.catl_qt[4],D.catl_qt[0])],
- ["Jan–mid-May",D.ytd25,D.ytd26,pc(D.ytd26,D.ytd25)]
+ ["Jan–end-May",D.ytd25,D.ytd26,pc(D.ytd26,D.ytd25)]
 ];
 document.getElementById('tbl').innerHTML=
  "<thead><tr>"+rows[0].map(h=>`<th>${h}</th>`).join('')+"</tr></thead><tbody>"+
