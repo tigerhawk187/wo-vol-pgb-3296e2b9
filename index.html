@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow Work Order Volume</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root{
+ color-scheme:light;
+ --navy:#1f3a5f; --blue:#2e6ba8; --sky:#6da8dd; --amber:#e0982f;
+ --catl:#c4622d; --sungrow:#2e6ba8; --risen:#2e9b8e; --lg:#8b66c8;
+ --bg:#eceff3; --card:#ffffff; --ink:#1f2a37; --muted:#6b7787;
+ --line:#e2e7ee; --green:#3f9b6d; --red:#c0473e; --amberflag:#d98a1f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,Arial,sans-serif;font-size:14px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 18px 46px}
+.head{background:linear-gradient(135deg,#1f3a5f,#2e6ba8);color:#fff;border-radius:14px;padding:22px 24px;position:relative;overflow:hidden}
+.head h1{font-size:23px;font-weight:700;letter-spacing:-.2px}
+.head p{color:#cfe0f0;font-size:13px;margin-top:4px}
+.badge{position:absolute;top:18px;right:20px;background:#3f9b6d;border:1px solid rgba(255,255,255,.4);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.6px;padding:5px 10px;border-radius:20px}
+.asof{margin-top:12px;font-size:11.5px;color:#bcd2e6}
+
+.note{margin-top:16px;background:#eef2f7;border:1px solid #d6deea;border-left:5px solid var(--blue);border-radius:10px;padding:14px 18px}
+.note .t{font-weight:700;color:var(--navy);font-size:13.5px}
+.note p{font-size:12.5px;color:#4a5564;margin-top:5px}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+.kpi .l{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.kpi .v{font-size:26px;font-weight:800;color:var(--navy);margin-top:7px;line-height:1}
+.kpi .d{font-size:11.5px;margin-top:6px;font-weight:600}
+.up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--muted)}
+.kpi .sub{font-size:10.5px;color:var(--muted);margin-top:3px}
+
+.headline{margin-top:16px;background:#fbf3e4;border:1px solid #ecd8a8;border-left:5px solid var(--amber);border-radius:10px;padding:16px 20px;display:flex;gap:18px;align-items:center}
+.headline .big{font-size:40px;font-weight:800;color:var(--catl);line-height:1;flex:none}
+.headline .t{font-weight:700;color:#8a5a12;font-size:14px}
+.headline p{font-size:12.5px;color:#6f5a2c;margin-top:4px}
+
+.section-head{margin-top:26px;margin-bottom:8px;padding:14px 18px;border-radius:10px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff}
+.section-head .sub{font-weight:400;font-size:12px;opacity:.9;margin-left:10px}
+.section-head .stripe{width:6px;height:22px;background:rgba(255,255,255,.6);border-radius:3px;flex:none}
+.sec-catl{background:linear-gradient(135deg,#9c4a1f,#c4622d)}
+.sec-other{background:linear-gradient(135deg,#1f3a5f,#2e6ba8)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-top:14px}
+.card h2{font-size:15px;color:var(--navy);font-weight:700}
+.card .hint{font-size:11.5px;color:var(--muted);margin-top:3px;margin-bottom:6px}
+.chartbox{position:relative;height:300px;margin-top:10px}
+.chartbox.sm{height:240px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.grid2 .card{margin-top:0}
+
+.flag{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:9px;margin-top:9px;border:1px solid var(--line)}
+.flag .dot{width:11px;height:11px;border-radius:50%;margin-top:4px;flex:none}
+.flag .ft{font-weight:700;font-size:13px}
+.flag .fd{font-size:12px;color:var(--muted);margin-top:2px}
+.r-red{background:#fbeceb} .r-red .dot{background:var(--red)}
+.r-amber{background:#fcf3e2} .r-amber .dot{background:var(--amberflag)}
+.r-green{background:#eaf5ef} .r-green .dot{background:var(--green)}
+.r-grey{background:#eef1f5} .r-grey .dot{background:#8a97a8}
+
+table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12.5px}
+th,td{padding:7px 9px;text-align:center;border-bottom:1px solid var(--line)}
+th{background:#f4f6f9;color:var(--navy);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+td:first-child,th:first-child{text-align:left;font-weight:600}
+
+.foot{margin-top:18px;font-size:11px;color:var(--muted);line-height:1.6}
+.foot b{color:var(--ink)}
+h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.funnel-grid{grid-template-columns:repeat(2,1fr)}}
+.sec-funnel{background:linear-gradient(135deg,#5a3d6e,#8b66c8)}
+.funnel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0;overflow:hidden}
+.vstripe{height:6px}
+.vbody{padding:14px 16px}
+.vname{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.vrow{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;font-size:12px;color:var(--muted)}
+.vrow .vnum{font-size:18px;font-weight:700;color:var(--ink)}
+.vrate{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.vrate .vlabel{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.vrate .vnumbig{font-size:28px;font-weight:800;margin-top:4px}
+.vnote{font-size:10.5px;color:var(--muted);margin-top:6px}
+.vc-catl .vstripe{background:var(--catl)} .vc-catl .vnumbig{color:var(--catl)}
+.vc-sg .vstripe{background:var(--sungrow)} .vc-sg .vnumbig{color:var(--sungrow)}
+.vc-risen .vstripe{background:var(--risen)} .vc-risen .vnumbig{color:var(--risen)}
+.vc-lg .vstripe{background:var(--lg)} .vc-lg .vnumbig{color:var(--lg)}
+.vbar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:#eef1f5;margin-top:12px}
+.vbar-seg{height:100%}
+.vbar-lost{background:#c0473e}
+.vbar-open{background:#cfd9e4}
+.vc-catl .vbar-won{background:var(--catl)}
+.vc-sg .vbar-won{background:var(--sungrow)}
+.vc-risen .vbar-won{background:var(--risen)}
+.vc-lg .vbar-won{background:var(--lg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="badge">LIVE — LIFT DATA</div>
+    <h1>Flow Work Order Volume</h1>
+    <p>Weekly leadership view of flow work &mdash; Projects &amp; Services</p>
+    <div class="asof" id="asof"></div>
+  </div>
+
+  <div class="note">
+    <div class="t">Two sources, by design</div>
+    <p>The <b>CATL</b> section is built from the <b>CATL Work Orders</b> table in Renewance Lift &mdash; <b>4,139 work orders</b>, the authoritative system of record. <b>Sungrow, Risen and LG</b> come from <b>HubSpot deal creation</b> (Commercial toll-gate path). Two different metrics, each on its own scale, kept in separate sections so the read stays honest. History starts Jan 1, 2025.</p>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="headline">
+    <div class="big" id="hl-big"></div>
+    <div>
+      <div class="t" id="hl-t"></div>
+      <p id="hl-p"></p>
+    </div>
+  </div>
+
+  <!-- ===================== CATL SECTION ===================== -->
+  <div class="section-head sec-catl">
+    <div class="stripe"></div>
+    CATL — Lift Work Orders
+    <span class="sub">authoritative · the system of record</span>
+  </div>
+
+  <div class="card">
+    <h2>Weekly volume <span class="q">&mdash; CATL work orders created per week</span></h2>
+    <div class="hint">Weekly count of CATL work orders opened in Lift since Jan 1, 2025 &mdash; the highest-frequency signal of demand and the earliest place to spot a slowdown or pickup. Amber bars mark same-day bulk creations that aren&rsquo;t real weekly intake and the final bar is the current, partial week.</div>
+    <div class="chartbox"><canvas id="c-wk"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2>Monthly volume <span class="q">&mdash; 17 months</span></h2>
+    <div class="hint">Monthly rollup of the weekly counts, smoothing individual-week noise to show the underlying trajectory. Use this to compare like months across years; May 2026 is still in progress.</div>
+    <div class="chartbox"><canvas id="c-mo"></canvas></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Quarter over quarter</h2>
+      <div class="hint">Quarterly CATL volume across six recent quarters. Frames the shape of the year and surfaces structural shifts the weekly view can mask. Q2 2026 is partial.</div>
+      <div class="chartbox sm"><canvas id="c-qt"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Year over year</h2>
+      <div class="hint">Direct year-over-year comparison for the matching Jan-to-mid-May window. Neither year contains a bulk-load week, so the gap is a clean read of real CATL demand change.</div>
+      <div class="chartbox sm"><canvas id="c-yoy"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Early-warning signals</h2>
+    <div class="hint">Plain-language summary of the four signals worth watching this period. Each is auto-evaluated against the trend; the colored dots flag direction and severity at a glance.</div>
+    <div id="flags"></div>
+  </div>
+
+  <div class="card">
+    <h2>Period detail <span class="q">&mdash; CATL</span></h2>
+    <table id="tbl"></table>
+  </div>
+
+  <!-- ===================== OTHER OEMS SECTION ===================== -->
+  <div class="section-head sec-other">
+    <div class="stripe"></div>
+    Other OEMs — Sungrow · Risen · LG
+    <span class="sub">HubSpot commercial-path deals</span>
+  </div>
+
+  <div class="card">
+    <h2>Weekly volume <span class="q">&mdash; Sungrow only (Risen / LG too sparse for weekly)</span></h2>
+    <div class="hint">Sungrow deal creation by week, aligned to the CATL weekly view above for direct comparison. Sungrow is the only non-CATL vendor with enough weekly density to be useful at this grain; Risen and LG appear at monthly grain below.</div>
+    <div class="chartbox"><canvas id="o-wk"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2>Monthly volume <span class="q">&mdash; each vendor as its own bar</span></h2>
+    <div class="hint">Monthly deal-creation per vendor, broken out side by side. The Dec 2025 LG spike is a same-day creation of 28 NextEra portfolio deals &mdash; one batch event, not 28 separate opportunities.</div>
+    <div class="chartbox"><canvas id="o-mo"></canvas></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Quarter over quarter</h2>
+      <div class="hint">Quarterly view of each non-CATL vendor's commercial-path volume. Useful for spotting which OEM is structurally growing or pulling back; Q2 2026 is partial.</div>
+      <div class="chartbox sm"><canvas id="o-qt"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Year over year</h2>
+      <div class="hint">Q1 2025 versus Q1 2026 for each non-CATL vendor &mdash; the same comparable window used for CATL. Sungrow has nearly tripled; Risen and LG are smaller series whose totals move with single big deals.</div>
+      <div class="chartbox sm"><canvas id="o-yoy"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ===================== FUNNEL SECTION ===================== -->
+  <div class="section-head sec-funnel">
+    <div class="stripe"></div>
+    Intake &amp; Win Rate &mdash; Commercial Funnel
+    <span class="sub">opportunities → transferred to Lift as actionable work · since Jan 1, 2025</span>
+  </div>
+
+  <div class="funnel-grid">
+    <div class="vcard vc-catl">
+      <div class="vstripe"></div>
+      <div class="vbody">
+        <div class="vname">CATL</div>
+        <div class="vrow"><span>Dispatched to field</span><span class="vnum">2,503</span></div>
+        <div class="vrate">
+          <div class="vlabel">Win rate</div>
+          <div class="vnumbig" style="font-size:20px;color:var(--muted);font-weight:700">Not applicable</div>
+          <div class="vnote">CATL flow largely bypasses HubSpot and the Commercial toll-gate &mdash; it&rsquo;s opened directly in Lift with no bidding stage, so there&rsquo;s no competitive win rate to compute. The 2,503 is dispatch volume since Jan 1, 2025, shown for context.</div>
+        </div>
+      </div>
+    </div>
+    <div class="vcard vc-sg">
+      <div class="vstripe"></div>
+      <div class="vbody">
+        <div class="vname">Sungrow</div>
+        <div class="vrow"><span>Intake</span><span class="vnum">204</span></div>
+        <div class="vrow"><span>Transferred to Lift</span><span class="vnum">30</span></div>
+        <div class="vrate">
+          <div class="vlabel">Win rate (resolved)</div>
+          <div class="vnumbig">36%</div>
+          <div class="vbar"><div class="vbar-seg vbar-won" style="width:14.7%"></div><div class="vbar-seg vbar-lost" style="width:26.0%"></div><div class="vbar-seg vbar-open" style="width:59.3%"></div></div>
+          <div class="vnote">30 won · 53 lost · 121 still in flight.</div>
+        </div>
+      </div>
+    </div>
+    <div class="vcard vc-risen">
+      <div class="vstripe"></div>
+      <div class="vbody">
+        <div class="vname">Risen</div>
+        <div class="vrow"><span>Intake</span><span class="vnum">29</span></div>
+        <div class="vrow"><span>Transferred to Lift</span><span class="vnum">18</span></div>
+        <div class="vrate">
+          <div class="vlabel">Win rate (resolved)</div>
+          <div class="vnumbig">95%</div>
+          <div class="vbar"><div class="vbar-seg vbar-won" style="width:62.1%"></div><div class="vbar-seg vbar-lost" style="width:3.4%"></div><div class="vbar-seg vbar-open" style="width:34.5%"></div></div>
+          <div class="vnote">18 won · 1 lost · 10 still in flight.</div>
+        </div>
+      </div>
+    </div>
+    <div class="vcard vc-lg">
+      <div class="vstripe"></div>
+      <div class="vbody">
+        <div class="vname">LG</div>
+        <div class="vrow"><span>Intake</span><span class="vnum">50</span></div>
+        <div class="vrow"><span>Transferred to Lift</span><span class="vnum">5</span></div>
+        <div class="vrate">
+          <div class="vlabel">Win rate (resolved)</div>
+          <div class="vnumbig">50%</div>
+          <div class="vbar"><div class="vbar-seg vbar-won" style="width:10%"></div><div class="vbar-seg vbar-lost" style="width:10%"></div><div class="vbar-seg vbar-open" style="width:80%"></div></div>
+          <div class="vnote">5 won · 5 lost · 40 in flight (the Dec 2025 NextEra batch is largely in flight).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h2>How to read this</h2>
+    <div class="hint" style="font-size:12px;line-height:1.65">
+      <b>Intake</b> = opportunities received through the Commercial toll-gate (HubSpot deals created since Jan 1, 2025). <b>Transferred to Lift</b> = closed-won deals that became actionable field work. <b>Win rate (resolved)</b> = won ÷ (won + lost), excluding deals still in flight — the cleaner read of competitive performance. <b>CATL is shown separately</b>: its flow largely bypasses Commercial and opens directly in Lift, so it has no bidding funnel and no win rate. Its dispatch volume sits next to the others for context only.
+    </div>
+  </div>
+
+  <div class="card" style="background:#f7f9fb">
+    <h2>Data notes &amp; how this becomes the production report</h2>
+    <div class="foot">
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 01 Jun 2026 &mdash; <b>CATL series carried forward</b> from prior run (Lift sign-in expired this morning); OEM series refreshed.<br>
+      <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate. Different units &mdash; the two sections are kept separate for that reason.<br>
+      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; not real intake, excluded from trend reads. LG Dec 2025 includes 28 same-day deal creations for a NextEra portfolio rollout.<br>
+      <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>). The Monday run pulls Lift for CATL and HubSpot for the others; if Lift isn't signed in, it refreshes HubSpot and flags CATL for a manual sign-in.<br>
+      <b>Open item:</b> the Lift Projects table has no OEM field, which is why Sungrow / Risen / LG come from HubSpot. Adding an OEM field in Lift would put every OEM on one authoritative source &mdash; see the Implementation Plan, Section 10.
+    </div>
+  </div>
+
+</div>
+
+<script>
+const D={
+ weeks:["2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17"],
+ wk:[14,26,27,35,14,33,17,30,28,24,26,28,26,18,34,64,44,83,78,48,73,25,130,27,27,23,25,34,33,28,77,47,39,25,60,23,31,21,217,27,21,7,26,19,58,30,35,54,70,37,8,6,29,13,35,111,18,10,27,19,14,10,5,9,10,20,20,17,45,8,14,9],
+ sg_wk:[1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6],
+ mlabels:["Jan'25","Feb'25","Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26","Mar'26","Apr'26","May'26"],
+ catl_mo:[102,94,132,160,282,232,120,248,292,81,196,121,188,74,48,102,31],
+ sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20],
+ risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1],
+ lg_mo:[1,0,1,3,2,1,0,0,0,1,0,28,1,1,5,3,3],
+ qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26*"],
+ catl_qt:[328,674,660,398,310,133],
+ sg_qt:[23,9,19,44,60,49],
+ risen_qt:[0,0,11,11,5,2],
+ lg_qt:[2,6,0,29,7,6],
+ ytd25:697, ytd26:443,
+ sg_yoy:[23,60], risen_yoy:[0,5], lg_yoy:[2,7]
+};
+const SPIKE=150;
+const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · pulled 01 Jun 2026 · CATL pending manual Lift sign-in · auto-refresh every Monday ~2:03 AM Central";
+
+const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', BATCH='#e0982f', PRIOR='#b9c6d6';
+const groupedBarOpts={barPercentage:0.85,categoryPercentage:0.7};
+
+/* helpers */
+function arrow(n){return n>0?"▲ ":n<0?"▼ ":"▬ ";}
+function sum(a){return a.reduce((x,y)=>x+y,0);}
+const wk=D.wk;
+const lastFull=wk[wk.length-2], prevFull=wk[wk.length-3], partial=wk[wk.length-1];
+const wow=lastFull-prevFull;
+const last4=wk.slice(-5,-1), prev4=wk.slice(-9,-5);
+const a4=sum(last4)/4, p4=sum(prev4)/4;
+const yoyPct=Math.round((D.ytd26/D.ytd25-1)*100);
+const ytd2026all=sum(D.wk.filter((_,i)=>D.weeks[i]>="2026-01-01"));
+
+/* KPIs */
+const kpis=[
+ {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of May 10"},
+ {l:"Trailing 4-wk avg",v:a4.toFixed(1),d:arrow(a4-p4)+"prior 4 wks "+p4.toFixed(1),dc:a4>=p4?"up":"down",sub:"Completed weeks"},
+ {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – May 17",dc:"flat",sub:"2025 full year: 2,060"},
+ {l:"YoY (Jan–mid-May)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"},
+ {l:"Spike weeks",v:"2",d:"357 + 217 batch loads",dc:"flat",sub:"Excluded from trend reads"}
+];
+document.getElementById('kpis').innerHTML=kpis.map(k=>
+ `<div class="kpi"><div class="l">${k.l}</div><div class="v">${k.v}</div>
+  <div class="d ${k.dc}">${k.d}</div><div class="sub">${k.sub}</div></div>`).join('');
+
+document.getElementById('hl-big').textContent=yoyPct+"%";
+document.getElementById('hl-t').textContent="CATL work-order volume is down "+Math.abs(yoyPct)+"% year over year";
+document.getElementById('hl-p').textContent="Comparable Jan-to-mid-May window: "+D.ytd25+" work orders in 2025 versus "+D.ytd26+" in 2026. Neither window contains a batch load, so this is a clean read. The drop is concentrated in spring — Feb, Mar and Apr 2026 each ran below their 2025 counterparts. Confirm the driver before the revenue review.";
+
+/* CATL WEEKLY */
+new Chart(document.getElementById('c-wk'),{type:'bar',
+ data:{labels:D.weeks.map(w=>{const p=w.split('-');return p[1]+'/'+p[2];}),
+   datasets:[{data:D.wk,
+     backgroundColor:D.wk.map((v,i)=>i===D.wk.length-1?PART:(v>=SPIKE?BATCH:CATL)),
+     borderRadius:3,barPercentage:.8,categoryPercentage:.86}]},
+ options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+   tooltip:{callbacks:{label:c=>{const v=c.parsed.y;let s=v+" work orders";if(v>=SPIKE)s+=" (batch load)";if(c.dataIndex===D.wk.length-1)s+=" (partial week)";return s;}}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'},title:{display:true,text:'Work orders created'}},
+    x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:18}}}}});
+
+/* CATL MONTHLY */
+new Chart(document.getElementById('c-mo'),{type:'bar',
+ data:{labels:D.mlabels,datasets:[{data:D.catl_mo,
+   backgroundColor:D.catl_mo.map((v,i)=>i===D.mlabels.length-1?PART:CATL),
+   borderRadius:3}]},
+ options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+   tooltip:{callbacks:{label:c=>c.parsed.y+" work orders"+(c.dataIndex===D.mlabels.length-1?" (partial)":"")}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'},title:{display:true,text:'Work orders'}},
+    x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:14}}}}});
+
+/* CATL QUARTERLY */
+new Chart(document.getElementById('c-qt'),{type:'bar',
+ data:{labels:D.qlabels,datasets:[{data:D.catl_qt,borderRadius:4,
+   backgroundColor:D.qlabels.map((_,i)=>i===D.qlabels.length-1?PART:CATL)}]},
+ options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+   tooltip:{callbacks:{label:c=>c.parsed.y+" work orders"+(c.dataIndex===5?" (partial qtr)":"")}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'}},x:{grid:{display:false}}}}});
+
+/* CATL YoY */
+new Chart(document.getElementById('c-yoy'),{type:'bar',
+ data:{labels:["2025","2026"],datasets:[{data:[D.ytd25,D.ytd26],borderRadius:5,
+   backgroundColor:[PRIOR,CATL],barPercentage:.6}]},
+ options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+   tooltip:{callbacks:{label:c=>c.parsed.y+" work orders (Jan–mid-May)"}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'}},x:{grid:{display:false}}}}});
+
+/* Early warning */
+const q125=D.catl_qt[0],q126=D.catl_qt[4];
+const qPct=Math.round((q126/q125-1)*100);
+const feb=[D.catl_mo[1],D.catl_mo[13]],mar=[D.catl_mo[2],D.catl_mo[14]],apr=[D.catl_mo[3],D.catl_mo[15]];
+const flags=[
+ {r:'r-red',
+  t:`Volume down ${Math.abs(yoyPct)}% year over year`,
+  d:`Jan to mid-May: ${D.ytd25} work orders in 2025 versus ${D.ytd26} in 2026. The primary signal — confirm the driver before the revenue review.`},
+ {r:'r-amber',
+  t:`February, March and April 2026 each ran below 2025`,
+  d:`Feb ${feb[1]} vs ${feb[0]} · Mar ${mar[1]} vs ${mar[0]} · Apr ${apr[1]} vs ${apr[0]}. Three consecutive months under prior-year — a sustained step down.`},
+ {r:a4>=p4?'r-green':'r-amber',
+  t:`Recent 4 weeks ${a4>=p4?'up':'down'} vs prior 4 (${a4.toFixed(1)} vs ${p4.toFixed(1)})`,
+  d:`A short-term ${a4>=p4?'stabilisation':'softening'} after the Q1 drop. Watch whether it holds — May is only partially in.`},
+ {r:'r-grey',
+  t:`Quarter view: Q1'26 ${qPct>=0?'+':''}${qPct}% vs Q1'25 (${q126} vs ${q125})`,
+  d:`Q1 held close to last year; the decline is concentrated in the spring.`}
+];
+document.getElementById('flags').innerHTML=flags.map(f=>
+ `<div class="flag ${f.r}"><div class="dot"></div><div><div class="ft">${f.t}</div><div class="fd">${f.d}</div></div></div>`).join('');
+
+/* CATL table */
+function pc(a,b){const p=Math.round((a/b-1)*100);return (p>=0?"+":"")+p+"%";}
+const rows=[
+ ["Period","2025","2026","Change"],
+ ["January",D.catl_mo[0],D.catl_mo[12],pc(D.catl_mo[12],D.catl_mo[0])],
+ ["February",D.catl_mo[1],D.catl_mo[13],pc(D.catl_mo[13],D.catl_mo[1])],
+ ["March",D.catl_mo[2],D.catl_mo[14],pc(D.catl_mo[14],D.catl_mo[2])],
+ ["April",D.catl_mo[3],D.catl_mo[15],pc(D.catl_mo[15],D.catl_mo[3])],
+ ["Q1 (Jan–Mar)",D.catl_qt[0],D.catl_qt[4],pc(D.catl_qt[4],D.catl_qt[0])],
+ ["Jan–mid-May",D.ytd25,D.ytd26,pc(D.ytd26,D.ytd25)]
+];
+document.getElementById('tbl').innerHTML=
+ "<thead><tr>"+rows[0].map(h=>`<th>${h}</th>`).join('')+"</tr></thead><tbody>"+
+ rows.slice(1).map(r=>"<tr>"+r.map(c=>`<td>${c}</td>`).join('')+"</tr>").join('')+"</tbody>";
+
+/* OTHER OEMs WEEKLY - Sungrow */
+new Chart(document.getElementById('o-wk'),{type:'bar',
+ data:{labels:D.weeks.map(w=>{const p=w.split('-');return p[1]+'/'+p[2];}),
+   datasets:[{label:'Sungrow',data:D.sg_wk,
+     backgroundColor:D.sg_wk.map((v,i)=>i===D.sg_wk.length-1?PART:SG),
+     borderRadius:3,barPercentage:.85,categoryPercentage:.88}]},
+ options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+   tooltip:{callbacks:{label:c=>{let s=c.parsed.y+" deals";if(c.dataIndex===D.sg_wk.length-1)s+=" (partial)";return s;}}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'}},x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:18}}}}});
+
+/* OTHER OEMs MONTHLY - grouped vendors */
+new Chart(document.getElementById('o-mo'),{type:'bar',
+ data:{labels:D.mlabels,datasets:[
+  {label:'Sungrow',data:D.sg_mo,backgroundColor:SG,borderRadius:2,...groupedBarOpts},
+  {label:'Risen',data:D.risen_mo,backgroundColor:RISEN,borderRadius:2,...groupedBarOpts},
+  {label:'LG',data:D.lg_mo,backgroundColor:LGc,borderRadius:2,...groupedBarOpts}
+ ]},
+ options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:8}},
+   tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.parsed.y+" deals"+(c.dataIndex===D.mlabels.length-1?" (partial)":"")}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'}},x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:14}}}}});
+
+/* OTHER OEMs QUARTERLY - grouped vendors */
+new Chart(document.getElementById('o-qt'),{type:'bar',
+ data:{labels:D.qlabels,datasets:[
+  {label:'Sungrow',data:D.sg_qt,backgroundColor:SG,borderRadius:2,...groupedBarOpts},
+  {label:'Risen',data:D.risen_qt,backgroundColor:RISEN,borderRadius:2,...groupedBarOpts},
+  {label:'LG',data:D.lg_qt,backgroundColor:LGc,borderRadius:2,...groupedBarOpts}
+ ]},
+ options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:8}},
+   tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.parsed.y+" deals"+(c.dataIndex===5?" (partial qtr)":"")}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'}},x:{grid:{display:false}}}}});
+
+/* OTHER OEMs YoY - 3 vendors */
+new Chart(document.getElementById('o-yoy'),{type:'bar',
+ data:{labels:["Q1 2025","Q1 2026"],datasets:[
+  {label:'Sungrow',data:D.sg_yoy,backgroundColor:SG,borderRadius:3,...groupedBarOpts},
+  {label:'Risen',data:D.risen_yoy,backgroundColor:RISEN,borderRadius:3,...groupedBarOpts},
+  {label:'LG',data:D.lg_yoy,backgroundColor:LGc,borderRadius:3,...groupedBarOpts}
+ ]},
+ options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:8}},
+   tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.parsed.y+" deals"}}},
+   scales:{y:{beginAtZero:true,grid:{color:'#eef1f5'}},x:{grid:{display:false}}}}});
+</script>
+</body>
+</html>
