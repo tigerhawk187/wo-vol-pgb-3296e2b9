@@ -271,7 +271,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 01 Jun 2026 &mdash; <b>CATL series carried forward</b> from prior run (Lift sign-in expired this morning); OEM series refreshed.<br>
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026 &mdash; <b>CATL series carried forward</b> from prior run (Lift sign-in still expired &mdash; needs manual sign-in then re-run); OEM series refreshed.<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate. Different units &mdash; the two sections are kept separate for that reason.<br>
       <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; not real intake, excluded from trend reads. LG Dec 2025 includes 28 same-day deal creations for a NextEra portfolio rollout.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>). The Monday run pulls Lift for CATL and HubSpot for the others; if Lift isn't signed in, it refreshes HubSpot and flags CATL for a manual sign-in.<br>
@@ -293,7 +293,7 @@ const D={
  lg_mo:[1,0,1,3,2,1,0,0,0,1,0,28,1,1,5,3,3],
  qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26*"],
  catl_qt:[328,674,660,398,310,133],
- sg_qt:[23,9,19,44,60,49],
+ sg_qt:[23,9,19,44,60,50],
  risen_qt:[0,0,11,11,5,2],
  lg_qt:[2,6,0,29,7,6],
  ytd25:697, ytd26:443,
@@ -301,7 +301,7 @@ const D={
 };
 const SPIKE=150;
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
-document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · pulled 01 Jun 2026 · CATL pending manual Lift sign-in · auto-refresh every Monday ~2:03 AM Central";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · pulled 03 Jun 2026 · CATL pending manual Lift sign-in · auto-refresh every Monday ~2:03 AM Central";
 
 const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', BATCH='#e0982f', PRIOR='#b9c6d6';
 const groupedBarOpts={barPercentage:0.85,categoryPercentage:0.7};
