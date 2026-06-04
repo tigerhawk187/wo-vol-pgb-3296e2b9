@@ -247,7 +247,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
           <div class="vlabel">Win rate (resolved)</div>
           <div class="vnumbig">50%</div>
           <div class="vbar"><div class="vbar-seg vbar-won" style="width:12.5%"></div><div class="vbar-seg vbar-lost" style="width:12.5%"></div><div class="vbar-seg vbar-open" style="width:75%"></div></div>
-          <div class="vnote">1 won · 1 lost · 6 in flight. Excludes 42 deals authored by commercial-team and Sales-Extension routing (HubSpot users 67667353 + 67779836), incl. the Dec '25 NextEra portfolio of 28. 2-deal resolved base.</div>
+          <div class="vnote">1 won · 1 lost · 6 in flight. Excludes 42 deals authored by commercial-team and Sales-Extension routing, incl. the Dec '25 NextEra portfolio of 28. 2-deal resolved base.</div>
         </div>
       </div>
     </div>
@@ -265,7 +265,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
     <div class="foot">
       <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026.<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
-      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (HubSpot users 67667353 + 67779836, primarily Dec '25 NextEra portfolio of 28). LG totals now show only deals authored by user 75077893. Sungrow and Risen unfiltered.<br>
+      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (primarily Dec '25 NextEra portfolio of 28). Sungrow and Risen unfiltered.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>).<br>
       <b>Open item:</b> the Lift Projects table has no OEM field. Adding one would put every OEM on one authoritative source &mdash; see the Implementation Plan, Section 10.
     </div>
