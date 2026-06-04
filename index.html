@@ -256,18 +256,17 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="margin-top:14px">
     <h2>How to read this</h2>
     <div class="hint" style="font-size:12px;line-height:1.65">
-      <b>Intake</b> = opportunities received through the Commercial toll-gate (HubSpot deals created since Jan 1, 2025). <b>Transferred to Lift</b> = closed-won deals that became actionable field work. <b>Win rate (resolved)</b> = won ÷ (won + lost), excluding deals still in flight. <b>CATL</b> opens directly in Lift with no bidding funnel; its dispatch volume sits next to the others for reference.
+      <b>Intake</b> = opportunities received through the Commercial toll-gate (HubSpot deals created since Jan 1, 2025). <b>Transferred to Lift</b> = closed-won deals that became actionable field work. <b>Win rate (resolved)</b> = won ÷ (won + lost), excluding deals still in flight.
     </div>
   </div>
 
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026.<br>
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. Pulled 03 Jun 2026.<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
       <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (primarily Dec '25 NextEra portfolio of 28). Sungrow and Risen unfiltered.<br>
-      <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>).<br>
-      <b>Open item:</b> the Lift Projects table has no OEM field. Adding one would put every OEM on one authoritative source &mdash; see the Implementation Plan, Section 10.
+      <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central.
     </div>
   </div>
 
