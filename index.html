@@ -263,7 +263,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. Pulled 03 Jun 2026.<br>
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. HubSpot re-pulled 04 Jun 2026 (values unchanged vs 03 Jun); CATL last refreshed 03 Jun 2026 &mdash; Lift session expired, sign-in required to re-pull.<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
       <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (primarily Dec '25 NextEra portfolio of 28). Sungrow and Risen unfiltered.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central.
@@ -292,7 +292,7 @@ const D={
 };
 const SPIKE=150;
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
-document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · pulled 03 Jun 2026 · auto-refresh every Monday ~2:03 AM Central";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 04 Jun 2026 · CATL as of 03 Jun 2026 (Lift sign-in needed to refresh) · auto-refresh every Monday ~2:03 AM Central";
 
 const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', BATCH='#e0982f', PRIOR='#b9c6d6';
 const groupedBarOpts={barPercentage:0.85,categoryPercentage:0.7};
