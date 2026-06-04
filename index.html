@@ -107,11 +107,6 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
     <div class="asof" id="asof"></div>
   </div>
 
-  <div class="note">
-    <div class="t">Two sources, by design</div>
-    <p>The <b>CATL</b> section is built from the <b>CATL Work Orders</b> table in Renewance Lift &mdash; <b>4,178 work orders</b>, the authoritative system of record. <b>Sungrow, Risen and LG</b> come from <b>HubSpot deal creation</b> (Commercial toll-gate path). Two different metrics, each on its own scale, kept in separate sections so the read stays honest. History starts Jan 1, 2025.</p>
-  </div>
-
   <div class="kpis" id="kpis"></div>
 
   <div class="headline">
@@ -131,32 +126,32 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
   <div class="card">
     <h2>Weekly volume <span class="q">&mdash; CATL work orders created per week</span></h2>
-    <div class="hint">Weekly count of CATL work orders opened in Lift since Jan 1, 2025 &mdash; the highest-frequency signal of demand and the earliest place to spot a slowdown or pickup. Amber bars mark same-day bulk creations that aren&rsquo;t real weekly intake and the final bar is the current, partial week.</div>
+    <div class="hint">Weekly count of CATL work orders opened in Lift since Jan 1, 2025. Amber bars mark same-day bulk creations that aren&rsquo;t real weekly intake and the final bar is the current, partial week.</div>
     <div class="chartbox"><canvas id="c-wk"></canvas></div>
   </div>
 
   <div class="card">
     <h2>Monthly volume <span class="q">&mdash; 17 months</span></h2>
-    <div class="hint">Monthly rollup of the weekly counts, smoothing individual-week noise to show the underlying trajectory. Use this to compare like months across years; May 2026 is still in progress.</div>
+    <div class="hint">Monthly rollup of the weekly counts. June 2026 is partial.</div>
     <div class="chartbox"><canvas id="c-mo"></canvas></div>
   </div>
 
   <div class="grid2">
     <div class="card">
       <h2>Quarter over quarter</h2>
-      <div class="hint">Quarterly CATL volume across six recent quarters. Frames the shape of the year and surfaces structural shifts the weekly view can mask. Q2 2026 is partial.</div>
+      <div class="hint">Quarterly CATL volume across six recent quarters. Q2 2026 is partial.</div>
       <div class="chartbox sm"><canvas id="c-qt"></canvas></div>
     </div>
     <div class="card">
       <h2>Year over year</h2>
-      <div class="hint">Direct year-over-year comparison for the matching Jan-to-mid-May window. Neither year contains a bulk-load week, so the gap is a clean read of real CATL demand change.</div>
+      <div class="hint">Direct year-over-year comparison for the matching Jan-to-end-of-May window.</div>
       <div class="chartbox sm"><canvas id="c-yoy"></canvas></div>
     </div>
   </div>
 
   <div class="card">
     <h2 id="ew-h">Early-warning signals</h2>
-    <div class="hint">Plain-language summary of the four signals worth watching this period. Each is auto-evaluated against the trend; the colored dots flag direction and severity at a glance.</div>
+    <div class="hint">Four signals worth watching this period.</div>
     <div id="flags"></div>
   </div>
 
@@ -174,25 +169,25 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
   <div class="card">
     <h2>Weekly volume <span class="q">&mdash; Sungrow only (Risen / LG too sparse for weekly)</span></h2>
-    <div class="hint">Sungrow deal creation by week, aligned to the CATL weekly view above for direct comparison. Sungrow is the only non-CATL vendor with enough weekly density to be useful at this grain; Risen and LG appear at monthly grain below.</div>
+    <div class="hint">Sungrow deal creation by week. Risen and LG appear at monthly grain below.</div>
     <div class="chartbox"><canvas id="o-wk"></canvas></div>
   </div>
 
   <div class="card">
     <h2>Monthly volume <span class="q">&mdash; each vendor as its own bar</span></h2>
-    <div class="hint">Monthly deal-creation per vendor, broken out side by side. LG figures exclude 42 deals authored by commercial-team and Sales-Extension routing (Ganesh and proxy account, incl. the Dec '25 NextEra portfolio of 28) so the LG line reflects customer-originated demand only &mdash; this also excludes a handful of real wins routed through the extension. Sungrow and Risen unchanged.</div>
+    <div class="hint">Monthly deal-creation per vendor. LG figures exclude 42 deals authored by commercial-team and Sales-Extension routing (HubSpot users 67667353 + 67779836, incl. the Dec '25 NextEra portfolio of 28); LG line reflects customer-originated demand only. Sungrow and Risen unchanged.</div>
     <div class="chartbox"><canvas id="o-mo"></canvas></div>
   </div>
 
   <div class="grid2">
     <div class="card">
       <h2>Quarter over quarter</h2>
-      <div class="hint">Quarterly view of each non-CATL vendor's commercial-path volume. Useful for spotting which OEM is structurally growing or pulling back; Q2 2026 is partial.</div>
+      <div class="hint">Quarterly view of each non-CATL vendor's commercial-path volume. Q2 2026 is partial.</div>
       <div class="chartbox sm"><canvas id="o-qt"></canvas></div>
     </div>
     <div class="card">
       <h2>Year over year</h2>
-      <div class="hint">Q1 2025 versus Q1 2026 for each non-CATL vendor &mdash; the same comparable window used for CATL. Sungrow has nearly tripled; Risen and LG are smaller series whose totals move with single big deals.</div>
+      <div class="hint">Q1 2025 versus Q1 2026 for each non-CATL vendor.</div>
       <div class="chartbox sm"><canvas id="o-yoy"></canvas></div>
     </div>
   </div>
@@ -213,7 +208,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
         <div class="vrate">
           <div class="vlabel">Win rate</div>
           <div class="vnumbig" style="font-size:20px;color:var(--muted);font-weight:700">Not applicable</div>
-          <div class="vnote">CATL flow largely bypasses HubSpot and the Commercial toll-gate &mdash; it&rsquo;s opened directly in Lift with no bidding stage, so there&rsquo;s no competitive win rate to compute. The 2,503 is dispatch volume since Jan 1, 2025, shown for context.</div>
+          <div class="vnote">CATL opens directly in Lift with no bidding stage. 2,503 is dispatch volume since Jan 1, 2025.</div>
         </div>
       </div>
     </div>
@@ -255,7 +250,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
           <div class="vlabel">Win rate (resolved)</div>
           <div class="vnumbig">50%</div>
           <div class="vbar"><div class="vbar-seg vbar-won" style="width:12.5%"></div><div class="vbar-seg vbar-lost" style="width:12.5%"></div><div class="vbar-seg vbar-open" style="width:75%"></div></div>
-          <div class="vnote">1 won · 1 lost · 6 in flight. Excludes 42 deals authored by commercial-team and Sales-Extension routing (HubSpot users 67667353 + 67779836), incl. the Dec '25 NextEra portfolio of 28. Thin sample &mdash; rate is from a 2-deal resolved base.</div>
+          <div class="vnote">1 won · 1 lost · 6 in flight. Excludes 42 deals authored by commercial-team and Sales-Extension routing (HubSpot users 67667353 + 67779836), incl. the Dec '25 NextEra portfolio of 28. 2-deal resolved base.</div>
         </div>
       </div>
     </div>
@@ -264,18 +259,18 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="margin-top:14px">
     <h2>How to read this</h2>
     <div class="hint" style="font-size:12px;line-height:1.65">
-      <b>Intake</b> = opportunities received through the Commercial toll-gate (HubSpot deals created since Jan 1, 2025). <b>Transferred to Lift</b> = closed-won deals that became actionable field work. <b>Win rate (resolved)</b> = won ÷ (won + lost), excluding deals still in flight — the cleaner read of competitive performance. <b>CATL is shown separately</b>: its flow largely bypasses Commercial and opens directly in Lift, so it has no bidding funnel and no win rate. Its dispatch volume sits next to the others for context only.
+      <b>Intake</b> = opportunities received through the Commercial toll-gate (HubSpot deals created since Jan 1, 2025). <b>Transferred to Lift</b> = closed-won deals that became actionable field work. <b>Win rate (resolved)</b> = won ÷ (won + lost), excluding deals still in flight. <b>CATL</b> opens directly in Lift with no bidding funnel; its dispatch volume sits next to the others for reference.
     </div>
   </div>
 
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026 &mdash; both CATL and OEM series refreshed.<br>
-      <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate. Different units &mdash; the two sections are kept separate for that reason.<br>
-      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; not real intake, excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (HubSpot users 67667353 + 67779836, primarily Dec '25 NextEra portfolio of 28). Trade-off: this also drops some real wins created through the extension (e.g. Roccasecca Boulder City physical inspection) &mdash; LG totals now show only deals authored by user 75077893. Adding a custom <i>deal_source</i> property in HubSpot would let us filter cleanly without that trade-off. Sungrow and Risen unfiltered.<br>
-      <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>). The Monday run pulls Lift for CATL and HubSpot for the others; if Lift isn't signed in, it refreshes HubSpot and flags CATL for a manual sign-in.<br>
-      <b>Open item:</b> the Lift Projects table has no OEM field, which is why Sungrow / Risen / LG come from HubSpot. Adding an OEM field in Lift would put every OEM on one authoritative source &mdash; see the Implementation Plan, Section 10.
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, app btctjiyp3, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation, dealname token-matched per vendor. Pulled 03 Jun 2026.<br>
+      <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
+      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (HubSpot users 67667353 + 67779836, primarily Dec '25 NextEra portfolio of 28). LG totals now show only deals authored by user 75077893. Sungrow and Risen unfiltered.<br>
+      <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central (scheduled task <i>flow-wo-weekly-refresh</i>).<br>
+      <b>Open item:</b> the Lift Projects table has no OEM field. Adding one would put every OEM on one authoritative source &mdash; see the Implementation Plan, Section 10.
     </div>
   </div>
 
@@ -331,7 +326,7 @@ document.getElementById('kpis').innerHTML=kpis.map(k=>
 
 document.getElementById('hl-big').textContent=yoyPct+"%";
 document.getElementById('hl-t').textContent="CATL work-order volume is down "+Math.abs(yoyPct)+"% year over year";
-document.getElementById('hl-p').textContent="Comparable Jan-to-end-of-May window: "+D.ytd25+" work orders in 2025 versus "+D.ytd26+" in 2026. Neither window contains a batch load, so this is a clean read. The drop is concentrated in spring — Feb, Mar, Apr and May 2026 each ran below their 2025 counterparts. Confirm the driver before the revenue review.";
+document.getElementById('hl-p').textContent="Comparable Jan-to-end-of-May window: "+D.ytd25+" work orders in 2025 versus "+D.ytd26+" in 2026. Feb, Mar, Apr and May 2026 each ran below their 2025 counterparts.";
 
 /* CATL WEEKLY */
 new Chart(document.getElementById('c-wk'),{type:'bar',
@@ -377,16 +372,16 @@ const feb=[D.catl_mo[1],D.catl_mo[13]],mar=[D.catl_mo[2],D.catl_mo[14]],apr=[D.c
 const flags=[
  {r:'r-red',
   t:`Volume down ${Math.abs(yoyPct)}% year over year`,
-  d:`Jan to mid-May: ${D.ytd25} work orders in 2025 versus ${D.ytd26} in 2026. The primary signal — confirm the driver before the revenue review.`},
+  d:`Jan to end-of-May: ${D.ytd25} work orders in 2025 versus ${D.ytd26} in 2026.`},
  {r:'r-amber',
   t:`February, March, April and May 2026 each ran below 2025`,
-  d:`Feb ${feb[1]} vs ${feb[0]} · Mar ${mar[1]} vs ${mar[0]} · Apr ${apr[1]} vs ${apr[0]} · May ${D.catl_mo[16]} vs ${D.catl_mo[4]}. Four consecutive months under prior-year — a sustained step down.`},
+  d:`Feb ${feb[1]} vs ${feb[0]} · Mar ${mar[1]} vs ${mar[0]} · Apr ${apr[1]} vs ${apr[0]} · May ${D.catl_mo[16]} vs ${D.catl_mo[4]}. Four consecutive months under prior-year.`},
  {r:a4>=p4?'r-green':'r-amber',
   t:`Recent 4 weeks ${a4>=p4?'up':'down'} vs prior 4 (${a4.toFixed(1)} vs ${p4.toFixed(1)})`,
-  d:`A short-term ${a4>=p4?'stabilisation':'softening'} after the Q1 drop. Watch whether it holds — May is only partially in.`},
+  d:`A short-term ${a4>=p4?'stabilisation':'softening'} after the Q1 drop.`},
  {r:'r-grey',
   t:`Quarter view: Q1'26 ${qPct>=0?'+':''}${qPct}% vs Q1'25 (${q126} vs ${q125})`,
-  d:`Q1 held close to last year; the decline is concentrated in the spring.`}
+  d:`Q1 held close to last year.`}
 ];
 document.getElementById('flags').innerHTML=flags.map(f=>
  `<div class="flag ${f.r}"><div class="dot"></div><div><div class="ft">${f.t}</div><div class="fd">${f.d}</div></div></div>`).join('');
