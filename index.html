@@ -263,7 +263,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. HubSpot re-pulled 08 Jun 2026 (Sungrow Q2 +2 vs last pull, now 52); CATL last refreshed 03 Jun 2026 &mdash; Lift session still expired, sign-in required to re-pull.<br>
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. HubSpot re-pulled 12 Jun 2026 (Sungrow Q2 +1 vs last pull, now 53; June MTD 4 deals); CATL last refreshed 03 Jun 2026 &mdash; Lift session still expired, sign-in required to re-pull (weekly CATL axis held at week of 31 May until a manual Lift sign-in).<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
       <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude 42 deals authored via commercial-team and Sales-Extension routing</b> (primarily Dec '25 NextEra portfolio of 28). Sungrow and Risen unfiltered.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central.
@@ -279,12 +279,12 @@ const D={
  sg_wk:[1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6,3,3],
  mlabels:["Jan'25","Feb'25","Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26","Mar'26","Apr'26","May'26","Jun'26"],
  catl_mo:[105,94,120,161,293,209,142,189,340,93,142,175,188,74,46,101,51,22],
- sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20,3],
+ sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20,4],
  risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1,0],
  lg_mo:[0,0,1,3,2,1,0,0,0,0,0,0,0,0,0,1,0,0],
  qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26*"],
  catl_qt:[319,663,671,410,308,174],
- sg_qt:[23,9,19,44,60,52],
+ sg_qt:[23,9,19,44,60,53],
  risen_qt:[0,0,11,11,5,2],
  lg_qt:[1,6,0,0,0,1],
  ytd25:770, ytd26:460,
@@ -292,7 +292,7 @@ const D={
 };
 const SPIKE=150;
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
-document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 08 Jun 2026 · CATL as of 03 Jun 2026 (Lift sign-in needed to refresh) · auto-refresh every Monday ~2:03 AM Central";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 12 Jun 2026 · CATL as of 03 Jun 2026 (Lift sign-in needed to refresh) · auto-refresh every Monday ~2:03 AM Central";
 
 const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', BATCH='#e0982f', PRIOR='#b9c6d6';
 const groupedBarOpts={barPercentage:0.85,categoryPercentage:0.7};
