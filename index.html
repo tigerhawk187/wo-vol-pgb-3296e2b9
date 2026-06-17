@@ -26,7 +26,7 @@ body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSys
 .note .t{font-weight:700;color:var(--navy);font-size:13.5px}
 .note p{font-size:12.5px;color:#4a5564;margin-top:5px}
 
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
 .kpi .l{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.4px;text-transform:uppercase}
 .kpi .v{font-size:26px;font-weight:800;color:var(--navy);margin-top:7px;line-height:1}
@@ -219,7 +219,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
           <div class="vlabel">Win rate (resolved)</div>
           <div class="vnumbig">16%</div>
           <div class="vbar"><div class="vbar-seg vbar-won" style="width:15.4%"></div><div class="vbar-seg vbar-lost" style="width:82.7%"></div><div class="vbar-seg vbar-open" style="width:1.9%"></div></div>
-          <div class="vnote">32 won · 172 lost · 4 still open in HubSpot. Reflects Irene&rsquo;s 5 Jun deal cleanup, which resolved most previously-open deals to lost.</div>
+          <div class="vnote">32 won · 172 lost · 4 still open in HubSpot. Reflects the 5 Jun deal cleanup, which resolved most previously-open deals to lost.</div>
         </div>
       </div>
     </div>
@@ -233,7 +233,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
           <div class="vlabel">Win rate (resolved)</div>
           <div class="vnumbig">67%</div>
           <div class="vbar"><div class="vbar-seg vbar-won" style="width:62.1%"></div><div class="vbar-seg vbar-lost" style="width:31.0%"></div><div class="vbar-seg vbar-open" style="width:6.9%"></div></div>
-          <div class="vnote">18 won · 9 lost · 2 still open in HubSpot. Reflects Irene&rsquo;s 5 Jun deal cleanup.</div>
+          <div class="vnote">18 won · 9 lost · 2 still open in HubSpot. Reflects the 5 Jun deal cleanup.</div>
         </div>
       </div>
     </div>
@@ -261,11 +261,10 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   </div>
 
   <div class="card" style="background:#f7f9fb">
-    <h2>Data notes &amp; how this becomes the production report</h2>
+    <h2>Data notes</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. HubSpot re-pulled 17 Jun 2026. Funnel refreshed after Irene Pang&rsquo;s 5 Jun deal cleanup: Sungrow now 32 won / 172 lost / 4 open (win rate 16%), Risen 18 / 9 / 2 (67%). LG re-filtered per Stacy Gale review (see below). CATL refreshed 17 Jun 2026 via the Quickbase REST API (user token, no browser sign-in needed); weekly axis now current through the week of 14 Jun (partial).<br>
-      <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
-      <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude only the 28 NextEra placeholder deals bulk-loaded 23 Dec 2025</b> (HubSpot user 67667353, that date). Real LG CX jobs &mdash; including the Sales-Extension&ndash;routed wins (Edwards BESS decom, DESRI Santa Teresa, Santa Teresa IR test, Roccasecca physical inspection) &mdash; are now counted (revised 14 Jun 2026 per Stacy Gale review): 23 intake, 5 won, 9 lost, 9 open. Sungrow and Risen unfiltered. Note: HubSpot has a duplicate &ldquo;LG Energy Solution&rdquo; company (auto-created 27 May w/ Janus) that should be merged.<br>
+      <b>Sources:</b> CATL from Renewance Lift (Quickbase). Sungrow, Risen, LG from HubSpot deal creation. Refreshed 17 Jun 2026.<br>
+      <b>Methodology:</b> CATL counts work orders by Date Created. Other OEMs count HubSpot deals by created date. Two historical CATL bulk-load weeks are excluded from trend reads. LG figures exclude 28 NextEra placeholder deals to reflect real intake (23 since Jan 2025).<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central.
     </div>
   </div>
@@ -313,8 +312,7 @@ const kpis=[
  {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of Jun 7"},
  {l:"Trailing 4-wk avg",v:a4.toFixed(1),d:arrow(a4-p4)+"prior 4 wks "+p4.toFixed(1),dc:a4>=p4?"up":"down",sub:"Completed weeks"},
  {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – Jun 17 (incl. partial wk)",dc:"flat",sub:"2025 full year: 2,060"},
- {l:"YoY (Jan–end-May)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"},
- {l:"Spike weeks",v:"2",d:"357 + 217 batch loads",dc:"flat",sub:"Excluded from trend reads"}
+ {l:"YoY (Jan–end-May)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"}
 ];
 document.getElementById('kpis').innerHTML=kpis.map(k=>
  `<div class="kpi"><div class="l">${k.l}</div><div class="v">${k.v}</div>
