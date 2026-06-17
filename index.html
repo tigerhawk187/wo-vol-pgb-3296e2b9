@@ -263,7 +263,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes &amp; how this becomes the production report</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. HubSpot re-pulled 15 Jun 2026. Funnel refreshed after Irene Pang&rsquo;s 5 Jun deal cleanup: Sungrow now 32 won / 172 lost / 4 open (win rate 16%), Risen 18 / 9 / 2 (67%). LG re-filtered per Stacy Gale review (see below). CATL refreshed 15 Jun 2026 via the Quickbase REST API (user token, no browser sign-in needed); weekly axis now current through the week of 14 Jun (partial).<br>
+      <b>Sources:</b> CATL from Renewance Lift (QuickBase, CATL Work Orders table). Sungrow, Risen, LG from HubSpot deal creation. HubSpot re-pulled 17 Jun 2026. Funnel refreshed after Irene Pang&rsquo;s 5 Jun deal cleanup: Sungrow now 32 won / 172 lost / 4 open (win rate 16%), Risen 18 / 9 / 2 (67%). LG re-filtered per Stacy Gale review (see below). CATL refreshed 17 Jun 2026 via the Quickbase REST API (user token, no browser sign-in needed); weekly axis now current through the week of 14 Jun (partial).<br>
       <b>Metrics:</b> CATL counts work-order records by Date Created. Other OEMs count HubSpot deals by createdate.<br>
       <b>Data quirks:</b> Two CATL weeks carry bulk loads (11-17-2024: 357 / 09-28-2025: 217) &mdash; excluded from trend reads. <b>LG figures exclude only the 28 NextEra placeholder deals bulk-loaded 23 Dec 2025</b> (HubSpot user 67667353, that date). Real LG CX jobs &mdash; including the Sales-Extension&ndash;routed wins (Edwards BESS decom, DESRI Santa Teresa, Santa Teresa IR test, Roccasecca physical inspection) &mdash; are now counted (revised 14 Jun 2026 per Stacy Gale review): 23 intake, 5 won, 9 lost, 9 open. Sungrow and Risen unfiltered. Note: HubSpot has a duplicate &ldquo;LG Energy Solution&rdquo; company (auto-created 27 May w/ Janus) that should be merged.<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central.
@@ -275,15 +275,15 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 <script>
 const D={
  weeks:["2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17","2026-05-24","2026-05-31","2026-06-07","2026-06-14"],
- wk:[14,26,27,35,14,33,17,30,28,24,26,28,26,18,34,64,44,83,78,48,73,25,130,27,27,23,25,34,33,28,77,47,39,25,60,23,31,21,217,27,21,7,26,19,58,30,35,54,70,37,8,6,29,12,36,111,18,10,27,19,14,10,5,9,10,20,20,17,45,8,14,9,17,27,9,0],
+ wk:[14,26,27,35,14,33,17,30,28,24,26,28,26,18,34,64,44,83,78,48,73,25,130,27,27,23,25,34,33,28,77,47,39,25,60,23,31,21,217,27,21,7,26,19,58,30,35,54,70,37,8,6,29,12,36,111,18,10,27,19,14,10,5,9,10,20,20,17,45,8,14,9,17,27,9,6],
  sg_wk:[1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6,3,3,1,0],
  mlabels:["Jan'25","Feb'25","Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26","Mar'26","Apr'26","May'26","Jun'26"],
- catl_mo:[105,94,120,161,293,209,142,189,340,93,142,175,188,74,46,101,51,36],
+ catl_mo:[105,94,120,161,293,209,142,189,340,93,142,175,188,74,46,101,51,42],
  sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20,4],
  risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1,0],
  lg_mo:[1,0,1,3,2,1,0,0,0,1,0,0,1,1,5,3,3,1],
  qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26*"],
- catl_qt:[319,663,671,410,308,188],
+ catl_qt:[319,663,671,410,308,194],
  sg_qt:[23,9,19,44,60,53],
  risen_qt:[0,0,11,11,5,2],
  lg_qt:[2,6,0,1,7,7],
@@ -292,7 +292,7 @@ const D={
 };
 const SPIKE=150;
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
-document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 15 Jun 2026 · CATL refreshed 15 Jun 2026 (Quickbase API) · auto-refresh every Monday ~2:03 AM Central";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 17 Jun 2026 · CATL refreshed 17 Jun 2026 (Quickbase API) · auto-refresh every Monday ~2:03 AM Central";
 
 const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', BATCH='#e0982f', PRIOR='#b9c6d6';
 const groupedBarOpts={barPercentage:0.85,categoryPercentage:0.7};
@@ -312,7 +312,7 @@ const ytd2026all=sum(D.wk.filter((_,i)=>D.weeks[i]>="2026-01-01"));
 const kpis=[
  {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of Jun 7"},
  {l:"Trailing 4-wk avg",v:a4.toFixed(1),d:arrow(a4-p4)+"prior 4 wks "+p4.toFixed(1),dc:a4>=p4?"up":"down",sub:"Completed weeks"},
- {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – Jun 14 (incl. partial wk)",dc:"flat",sub:"2025 full year: 2,060"},
+ {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – Jun 17 (incl. partial wk)",dc:"flat",sub:"2025 full year: 2,060"},
  {l:"YoY (Jan–end-May)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"},
  {l:"Spike weeks",v:"2",d:"357 + 217 batch loads",dc:"flat",sub:"Excluded from trend reads"}
 ];
