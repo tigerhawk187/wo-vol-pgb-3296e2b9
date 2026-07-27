@@ -131,7 +131,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
   <div class="card">
     <h2>Monthly volume <span class="q">&mdash; 19 months</span></h2>
-    <div class="hint">Monthly rollup of the weekly counts. July 2026 is partial (just 19 days).</div>
+    <div class="hint">Monthly rollup of the weekly counts. July 2026 is partial (just 27 days).</div>
     <div class="chartbox"><canvas id="c-mo"></canvas></div>
   </div>
 
@@ -251,7 +251,7 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
   <div class="card" style="background:#f7f9fb">
     <h2>Data notes</h2>
     <div class="foot">
-      <b>Sources:</b> CATL from Renewance Lift (Quickbase). Sungrow, Risen, LG from HubSpot deal creation. Refreshed 20 Jul 2026.<br>
+      <b>Sources:</b> CATL from Renewance Lift (Quickbase). Sungrow, Risen, LG from HubSpot deal creation. Refreshed 27 Jul 2026.<br>
       <b>Methodology:</b> CATL counts work orders by <i>catl_submittingtime</i> (CATL&rsquo;s real intake timestamp), falling back to appointment time, then Lift created date for the 4% of records missing both. This replaces the prior &ldquo;Date Created in Lift&rdquo; basis, which produced spurious spikes when records were bulk-loaded. Other OEMs count HubSpot deals by created date. LG figures exclude 28 NextEra placeholder deals to reflect real intake (23 since Jan 2025).<br>
       <b>Cadence:</b> auto-refresh every Monday ~2:03 AM Central.
     </div>
@@ -261,24 +261,24 @@ h2 .q{font-size:11px;color:var(--muted);font-weight:600;margin-left:6px}
 
 <script>
 const D={
- weeks:["2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17","2026-05-24","2026-05-31","2026-06-07","2026-06-14","2026-06-21","2026-06-28","2026-07-05","2026-07-12","2026-07-19"],
- wk:[10,14,16,26,27,20,36,27,22,33,21,38,28,20,21,20,31,23,49,34,28,21,40,32,79,29,75,26,93,48,42,54,92,97,45,19,41,24,56,20,38,69,124,30,21,20,33,33,77,49,43,21,14,30,35,29,16,71,55,40,20,11,3,14,14,15,5,20,18,32,24,18,8,18,28,6,9,14,18,10,2],
- sg_wk:[1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6,3,3,2,3,9,1,12,0],
+ weeks:["2025-01-05","2025-01-12","2025-01-19","2025-01-26","2025-02-02","2025-02-09","2025-02-16","2025-02-23","2025-03-02","2025-03-09","2025-03-16","2025-03-23","2025-03-30","2025-04-06","2025-04-13","2025-04-20","2025-04-27","2025-05-04","2025-05-11","2025-05-18","2025-05-25","2025-06-01","2025-06-08","2025-06-15","2025-06-22","2025-06-29","2025-07-06","2025-07-13","2025-07-20","2025-07-27","2025-08-03","2025-08-10","2025-08-17","2025-08-24","2025-08-31","2025-09-07","2025-09-14","2025-09-21","2025-09-28","2025-10-05","2025-10-12","2025-10-19","2025-10-26","2025-11-02","2025-11-09","2025-11-16","2025-11-23","2025-11-30","2025-12-07","2025-12-14","2025-12-21","2025-12-28","2026-01-04","2026-01-11","2026-01-18","2026-01-25","2026-02-01","2026-02-08","2026-02-15","2026-02-22","2026-03-01","2026-03-08","2026-03-15","2026-03-22","2026-03-29","2026-04-05","2026-04-12","2026-04-19","2026-04-26","2026-05-03","2026-05-10","2026-05-17","2026-05-24","2026-05-31","2026-06-07","2026-06-14","2026-06-21","2026-06-28","2026-07-05","2026-07-12","2026-07-19","2026-07-26"],
+ wk:[10,14,16,26,27,20,36,27,22,33,21,38,28,20,21,20,31,23,49,34,28,21,40,32,79,29,75,26,93,48,42,54,92,97,45,19,41,24,56,20,38,69,124,30,21,20,33,33,77,49,43,21,14,30,35,29,16,71,55,40,20,11,3,14,14,15,5,20,18,32,24,18,8,18,28,6,8,18,10,8,21,1],
+ sg_wk:[0,1,3,0,2,1,2,5,0,5,2,2,0,1,0,1,2,1,1,0,0,0,2,1,0,0,0,0,0,1,1,3,2,1,1,3,3,1,2,4,6,3,5,2,7,2,3,3,2,3,5,0,9,5,2,6,2,4,1,3,4,2,5,7,7,10,8,8,3,4,1,9,6,3,3,2,3,9,9,12,4,0],
  mlabels:["Jan'25","Feb'25","Mar'25","Apr'25","May'25","Jun'25","Jul'25","Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26","Mar'26","Apr'26","May'26","Jun'26","Jul'26"],
- catl_mo:[59,119,117,94,157,172,263,293,129,307,104,220,111,182,53,67,82,69,32],
- sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20,20,21],
+ catl_mo:[59,119,117,94,157,172,263,293,129,307,104,220,111,182,53,67,82,68,50],
+ sg_mo:[6,8,9,4,2,3,1,8,10,19,15,10,24,12,24,29,20,20,25],
  risen_mo:[0,0,0,0,0,0,6,3,2,7,0,4,1,3,1,1,1,0,0],
- lg_mo:[1,0,1,3,2,1,0,0,0,1,0,0,1,1,5,3,3,1,7],
+ lg_mo:[1,0,1,3,2,1,0,0,0,1,0,0,1,1,5,3,3,1,9],
  qlabels:["Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26"],
  catl_qt:[295,423,685,631,346,217],
  sg_qt:[23,9,19,44,60,69],
  risen_qt:[0,0,11,11,5,2],
  lg_qt:[2,6,0,1,7,7],
- ytd25:718, ytd26:564,
+ ytd25:718, ytd26:563,
  sg_yoy:[23,60], risen_yoy:[0,5], lg_yoy:[2,7]
 };
 const F=Chart.defaults; F.font.family="-apple-system,Segoe UI,Calibri,Arial,sans-serif"; F.font.size=11; F.color="#6b7787";
-document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 20 Jul 2026 · CATL refreshed 20 Jul 2026 (Quickbase API, catl_submittingtime) · auto-refresh every Monday ~2:03 AM Central";
+document.getElementById('asof').textContent="Source: Renewance Lift + HubSpot · HubSpot re-pulled 27 Jul 2026 · CATL refreshed 27 Jul 2026 (Quickbase API, catl_submittingtime) · auto-refresh every Monday ~2:03 AM Central";
 
 const CATL='#c4622d', SG='#2e6ba8', RISEN='#2e9b8e', LGc='#8b66c8', PART='#cfd9e4', PRIOR='#b9c6d6';
 
@@ -315,9 +315,9 @@ const ytd2026all=sum(D.wk.filter((_,i)=>D.weeks[i]>="2026-01-01"));
 
 /* KPIs */
 const kpis=[
- {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of Jul 12"},
+ {l:"Latest full week",v:lastFull,d:arrow(wow)+(wow>=0?"+":"")+wow+" vs prior week",dc:wow>=0?"up":"down",sub:"Week of Jul 19"},
  {l:"Trailing 4-wk avg",v:a4.toFixed(1),d:arrow(a4-p4)+"prior 4 wks "+p4.toFixed(1),dc:a4>=p4?"up":"down",sub:"Completed weeks"},
- {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – Jul 19 (incl. partial wk)",dc:"flat",sub:"2025 full year: 2,034"},
+ {l:"2026 work orders",v:ytd2026all,d:"Jan 1 – Jul 26 (incl. partial wk)",dc:"flat",sub:"2025 full year: 2,034"},
  {l:"YoY (Jan–end-Jun)",v:yoyPct+"%",d:arrow(yoyPct)+D.ytd25+" → "+D.ytd26,dc:yoyPct>=0?"up":"down",sub:"Like-for-like window"}
 ];
 document.getElementById('kpis').innerHTML=kpis.map(k=>
